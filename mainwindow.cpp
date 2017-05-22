@@ -46,9 +46,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_treeWidget_itemActivated(QTreeWidgetItem *item, int column)
 {
-    //@TODO - delete this shit and write Ъ-code
-    /*QString* str = ftdi_u item->data(0, Qt::UserRole);
-    ui->label->setText( );*/
+
 }
 
 void MainWindow::error_Handler(char* mesg, int errnum, error_layer el) {
