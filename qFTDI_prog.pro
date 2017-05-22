@@ -14,10 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    usbview.cpp
+    usbview.cpp \
+    devtreemodel.cpp
 
 HEADERS  += mainwindow.h \
-    main.h
+    devtreemodel.h
 
 FORMS    += mainwindow.ui
 

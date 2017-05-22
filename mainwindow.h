@@ -14,8 +14,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#include "main.h"
-
 namespace Ui {
 class MainWindow;
 }
@@ -45,6 +43,15 @@ signals:
 private:
     Ui::MainWindow *ui;
     QLabel *statusLabel;
+
+    enum error_layer {
+        DEBG = 0,
+        INFO = 1,
+        WARN = 2,
+        ERRR = 3,
+        CRIT = 4
+    };
+
     void setupTree(QMap<ftdi_context *, libusb_device *> *all_ftdi);
     void error_Handler(char* mesg, int errnum, error_layer el);
 };
