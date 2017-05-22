@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 
+using namespace std;
 using namespace Ftdi;
 
 int main(int argc, char *argv[]) {
@@ -53,4 +54,8 @@ void MainWindow::getAllDevices() {
         }
         setupTree(&ftdi_list);
     }
+}
+
+void MainWindow::getDevInfo(ftdi_context *ftdictx, libusb_device *usbdev) {
+
 }

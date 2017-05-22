@@ -23,6 +23,7 @@ FORMS    += mainwindow.ui
 
 CONFIG += debug
 CONFIG += console
+CONFIG += c++11
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += libftdipp1

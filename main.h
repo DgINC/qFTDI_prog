@@ -9,8 +9,4 @@ enum error_layer {
     CRIT = 4
 };
 
-
-
-
-
 #endif // MAIN_H

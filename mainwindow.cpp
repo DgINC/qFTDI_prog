@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     statusLabel = new QLabel(this);
     ui->barabar->addPermanentWidget(statusLabel);
-    //ui->treeWidget->setColumnCount(1);
     connect(this, SIGNAL(window_loaded()), this, SLOT(getAllDevices()));
 }
 

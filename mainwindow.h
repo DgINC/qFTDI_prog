@@ -31,6 +31,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     QMessageBox msgBox;
     ~MainWindow();
+    void getDevInfo(ftdi_context* ftdictx ,libusb_device* usbdev);
 
 private slots:
     void on_pushButton_clicked();
