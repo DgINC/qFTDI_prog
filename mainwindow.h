@@ -29,7 +29,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     QMessageBox msgBox;
     ~MainWindow();
-    void getDevInfo(ftdi_context* ftdictx ,libusb_device* usbdev);
+
+    QString getDevInfo(ftdi_context* ftdictx ,libusb_device* usbdev);
+    void getDevPins(ftdi_context* ftdictx);
 
 private slots:
     void on_pushButton_clicked();

@@ -56,6 +56,18 @@ void MainWindow::getAllDevices() {
     }
 }
 
-void MainWindow::getDevInfo(ftdi_context *ftdictx, libusb_device *usbdev) {
+QString MainWindow::getDevInfo(ftdi_context *ftdictx, libusb_device *usbdev) {
+    int ret;
+    char manufacturer[128], description[128], serial[128];
+    if ((ret = ftdi_usb_get_strings(ftdictx, usbdev, manufacturer, 128, description, 128, serial, 128)) < 0) {
+        error_Handler(ftdi_get_error_string(ftdictx), ret, ERRR);
+        ftdi_free(ftdictx);
+    }
+    return QString("%1 %2 %3").arg(manufacturer).arg(description).arg(serial);
+}
 
+void getDevPins(ftdi_context* ftdictx) {
+    unsigned char* pins;
+    ftdi_read_pins(ftdictx, pins);
+    qDebug() << pins;
 }

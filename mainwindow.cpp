@@ -23,8 +23,9 @@ void MainWindow::setupTree(QMap<ftdi_context*, libusb_device*> *all_ftdi) {
 
     while (i != all_ftdi->constEnd()) {
         QTreeWidgetItem *twi = new QTreeWidgetItem();
-        twi->setText(0, QString("%1").arg(i.key()->type));
-        //twi->setData(0, Qt::UserRole, QVariant::fromValue(i.value()));
+        qDebug() << getDevInfo(i.key(), i.value());
+        twi->setText(0, getDevInfo(i.key(), i.value()));
+        twi->setData(0, Qt::UserRole, QVariant::fromValue(i.key()));
         items.append(twi);
         ++i;
     }
@@ -45,7 +46,8 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_treeWidget_itemActivated(QTreeWidgetItem *item, int column)
 {
-
+    getDevPins(item->data(column, Qt::UserRole));
+    item->
 }
 
 void MainWindow::error_Handler(char* mesg, int errnum, error_layer el) {
