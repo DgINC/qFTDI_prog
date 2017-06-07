@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<additional>
+    <chip id="0">
+        <manufacturer>Acme Corporation</manufacturer>
+        <name>TNT</name>
+        <VID>1935</VID>
+        <PID>0457</PID>
+    </chip>
+</additional>

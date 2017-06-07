@@ -13,18 +13,19 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    usbview.cpp
+        mainwindow.cpp
 
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+CONFIG += c++11
 CONFIG += debug
 CONFIG += console
-CONFIG += c++11
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += libftdipp1
-
 unix: PKGCONFIG += libusb-1.0
+
+DISTFILES += \
+    settings.xml

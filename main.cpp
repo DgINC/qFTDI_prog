@@ -1,9 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-using namespace std;
-using namespace Ftdi;
-
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainWindow w;
@@ -19,55 +16,33 @@ int main(int argc, char *argv[]) {
     return a.exec();
 }
 
-void MainWindow::getAllDevices() {
-    int ret;
-    struct ftdi_context ftdictx;
-    struct ftdi_device_list *devlist;
-    QMap<ftdi_context*, libusb_device*> ftdi_list;
+void MainWindow::getAllDevices(const int vid, const int pid) {
+    QMap<QString, Context*> ftdi_list;
 
-    if((ret = ftdi_init(&ftdictx)) < 0) {
-        error_Handler(ftdi_get_error_string(&ftdictx), ret, ERRR);
-        ftdi_free(&ftdictx);
-    }
+    Context* cftdi = new Context();
+    List* list = List::find_all(*cftdi, vid, pid);
 
-    if ((ret = ftdi_usb_find_all(&ftdictx, &devlist, 0, 0)) <= 0) {
-        if(ret == 0) {
-            error_Handler((char *)"No device found!", 0, INFO);
-        } else {
-            error_Handler(ftdi_get_error_string(&ftdictx), ret, ERRR);
+    for (List::iterator it = list->begin(); it != list->end(); it++) {
+        ftdi_list.insertMulti(QString("Manufacturer: %1 Devtype: %2 Serial: %3").arg(convert(it->vendor())).arg(convert(it->description())).arg(convert(it->serial())), &*it);
+        if(it->open() != 0) {
+            error_Handler((const char *)"Device open failed", 0, ERRR);
         }
-        ftdi_list_free(&devlist);
-        ftdi_free(&ftdictx);
-    } else {
-        for (; devlist != 0; devlist = devlist->next) {
-            if ((ret = ftdi_usb_open_dev(&ftdictx, devlist->dev)) < 0) {
-                error_Handler(ftdi_get_error_string(&ftdictx), ret, ERRR);
-                ftdi_free(&ftdictx);
-            }
-
-            ftdi_list.insertMulti(&ftdictx, devlist->dev);
-
-            if ((ret = ftdi_usb_close(&ftdictx)) < 0) {
-                error_Handler(ftdi_get_error_string(&ftdictx), ret, ERRR);
-                ftdi_free(&ftdictx);
-            }
-        }
-        setupTree(&ftdi_list);
+        it->close();
     }
+    delete list;
+    setupTree(&ftdi_list);
 }
 
-QString MainWindow::getDevInfo(ftdi_context *ftdictx, libusb_device *usbdev) {
-    int ret;
-    char manufacturer[128], description[128], serial[128];
-    if ((ret = ftdi_usb_get_strings(ftdictx, usbdev, manufacturer, 128, description, 128, serial, 128)) < 0) {
-        error_Handler(ftdi_get_error_string(ftdictx), ret, ERRR);
-        ftdi_free(ftdictx);
-    }
-    return QString("%1 %2 %3").arg(manufacturer).arg(description).arg(serial);
-}
-
-void getDevPins(ftdi_context* ftdictx) {
+void MainWindow::getDevPins(Context* ctx) {
     unsigned char* pins;
-    ftdi_read_pins(ftdictx, pins);
+    if(ctx->is_open()){ ctx->close(); }
+    ctx->open();
+    ctx->read_pins(pins);
+    ctx->close();
     qDebug() << pins;
+}
+
+QString MainWindow::convert(const std::string& s)
+{
+   return QString::fromStdString(s);
 }
